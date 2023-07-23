@@ -1,2 +1,6 @@
 # Default ignored files
-.idea/*
+.fleet
+.idea
+.vscode
+.phpstorm.meta.php
+vendor

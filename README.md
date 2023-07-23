@@ -18,7 +18,9 @@ retrieve and index the data as follows:
 - Upload the source code to the GIT repository, remembering that the code must be readable by other programmers.
 
 ## Install:
+
 `composer install`
+
 `php -S localhost:8000`
 
 ### Install Elasticsearch
@@ -26,6 +28,7 @@ Follow the official Elasticsearch installation guide to install Elasticsearch on
 https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html
 
 By default, Elasticsearch is configured to allow automatic index creation, and no additional steps are required. However, if you have disabled automatic index creation in Elasticsearch, you must configure action.auto_create_index in elasticsearch.yml to allow the commercial features to create the following indices:
+
 `action.auto_create_index: .monitoring*,.watches,.triggered_watches,.watcher-history*,.ml*`
 
 Make sure you have Elasticsearch running on the default address and port (localhost:9200).

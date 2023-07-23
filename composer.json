@@ -1,0 +1,26 @@
+{
+    "name": "ellgree/avantrocz-test",
+    "description": "Test Job for parsing foxentry products and prices",
+    "type": "project",
+    "require": {
+        "guzzlehttp/guzzle": "^7.7",
+        "elasticsearch/elasticsearch": "^8.8"
+    },
+    "license": "MTI",
+    "autoload": {
+        "psr-4": {
+            "Ellgree\\AvantroczTest\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "EllGree",
+            "email": "96187296+EllGree@users.noreply.github.com"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

@@ -1,6 +1,13 @@
 # Default ignored files
-.fleet
-.idea
-.vscode
-.phpstorm.meta.php
-vendor
+/.fleet
+/.idea
+/.vscode
+/.phpstorm.meta.php
+/vendor/composer/
+/vendor/elastic/
+/vendor/elasticsearch/
+/vendor/guzzlehttp/
+/vendor/php-http/
+/vendor/psr/
+/vendor/ralouphie/
+/vendor/symfony/

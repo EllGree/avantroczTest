@@ -110,7 +110,7 @@ class Test {
         foreach (explode('</li>', $found) as $d) {
             $d = trim(strip_tags($d));
             if ($d) {
-                $details[] = trim(strip_tags($d));
+                $details[] = preg_replace('/[\r\n\t ]+/', ' ', strip_tags($d));
             }
         }
         return $details;

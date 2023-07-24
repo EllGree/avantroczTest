@@ -3,6 +3,7 @@ require_once 'vendor/autoload.php';
 
 use GuzzleHttp\Client;
 use Elastic\Elasticsearch\ClientBuilder;
+use vlucas\phpdotenv;
 
 /**
  * Test class with three public methods: fetch, parse, index
@@ -13,16 +14,25 @@ class Test {
     public $error = '';
     private $body = '';
     private $index = [];
-    public function __construct($esHost, $esPassword)
+    public function __construct()
     {
+        $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+        $dotenv->load(); // Read '/.env' file into global $_ENV variable
         try {
             // Create a Guzzle HTTP client
             $this->httpClient = new Client();
             // Create an Elasticsearch client
-            $this->esClient =  ClientBuilder::create()
-                ->setHosts([$esHost])
-                ->setBasicAuthentication('elastic', $esPassword)
-                ->build();
+            if (!empty($_ENV['ES_API_key'])) {
+                $this->esClient = ClientBuilder::create()
+                    ->setHosts([$_ENV['ES_API_Host']])
+                    ->setApiKey($_ENV['ES_API_key'])
+                    ->build();
+            } else {
+                $this->esClient = ClientBuilder::create()
+                    ->setHosts([$_ENV['ES_API_Host']])
+                    ->setBasicAuthentication('elastic', $_ENV['ES_API_Password'])
+                    ->build();
+            }
         } catch (GuzzleHttp\Exception\RequestException|Elastic\Elasticsearch\Exception\AuthenticationException $e) {
             $this->esFail($e);
         }
@@ -51,13 +61,13 @@ class Test {
         } else if (!preg_match_all($re, $this->body, $matches)) {
             $this->error = 'The document lacks the necessary data';
         } else {
-            foreach ($matches[1] as $id => $index) {
-                $details = $this->get_row_details($matches[2][$id]);
+            foreach ($matches[1] as $id => $title) {
+                $details = $this->rowDetails($matches[2][$id]);
                 $this->index[] = [
-                    'index' => $index,
-                    'id' => 'avantroczTest_' . $id,
+                    'index' => $_ENV['APP_NAME'] . '_index',
+                    'id' => $_ENV['APP_NAME'] . '_' . $id,
                     'body' => [
-                        'title' => $index,
+                        'title' => $title,
                         'description' => implode(', ', $details),
                         'details' => $details,
                         'price' => [
@@ -93,7 +103,7 @@ class Test {
     }
 
     // Private helpers
-    private function get_row_details($found): array
+    private function rowDetails($found): array
     {
         // Found details can be single string or HTML list
         $details = [];
@@ -109,7 +119,7 @@ class Test {
     private function esFail($e): void
     {
         $this->error = 'Wrong ElasticSearch configuration: '.$e->getMessage().
-            '<br/>Cannot index the following params:<pre>' . print_r($this->index, 1) . '</pre>';
+            '<br/><hr/>Cannot index the following params:<pre>' . print_r($this->index, 1) . '</pre>';
         $this->check();
     }
 

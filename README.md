@@ -1,4 +1,4 @@
-# avantroczTest -- Test Job for parsing foxentry products and prices
+# avantroczTest -- Test Job for parsing Foxentry products and prices
 
 ## Czech version of the test. For the English version, see below.
 Vytvořte parser, který z konkrétní stránky vytáhne požadovaná data a zaindexuje je do ElasticSearch indexu. 
@@ -17,13 +17,7 @@ retrieve and index the data as follows:
 - Create an ElasticSearch index and index each service there as a separate document
 - Upload the source code to the GIT repository, remembering that the code must be readable by other programmers.
 
-## Install:
-
-`composer install`
-
-`php -S localhost:8000`
-
-### Install Elasticsearch
+## Install Elasticsearch:
 Follow the official Elasticsearch installation guide to install Elasticsearch on your system:
 https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html
 
@@ -33,5 +27,13 @@ By default, Elasticsearch is configured to allow automatic index creation, and n
 
 Make sure you have Elasticsearch running on the default address and port (localhost:9200).
 
-## Run
-Start with http://localhost:8000
+...or setup cloud Elasticsearch Service on https://www.elastic.co/elasticsearch/service
+
+## Install application:
+Copy '.env.example' file into '.env' and update variables ES_API_key, ES_API_Host, ES_API_Password to configure Elasticsearch connection.
+
+Run `composer install`
+
+Run `php -S localhost:8000`
+
+Start your browser with http://localhost:8000

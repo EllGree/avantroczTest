@@ -1,16 +1,9 @@
 <?php
-// ElasticSearch service configuration:
-const esHost = 'https://localhost:9200';
-const esPassword = 'Q+_6SrutkGQicUQuCMhY';
-
-// Document URL for the parser:
-const uri = '//foxentry.com/cs/cenik-api';
-
 require_once 'src/test.php';
 
-$test = new Test(esHost, esPassword);
+$test = new Test();
 
-$test->fetch(uri)
+$test->fetch('//foxentry.com/cs/cenik-api')
     ->parse()
     ->index();
 
